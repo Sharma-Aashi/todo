@@ -1,0 +1,30 @@
+<div class="header">
+  <button mat-raised-button color="primary" (click)="openAddDialog()">Add Todo</button>
+</div>
+
+<div class="todo-list">
+  <div class="lane pending" (drop)="onDrop($event, false)" (dragover)="allowDrop($event)">
+    <h3>Pending</h3>
+    <ng-container *ngIf="pendingTodos.length;else noPendingTodos">
+      <app-todo-item *ngFor="let todo of pendingTodos" [todo]="todo" (updateTodoEvent)="handleUpdate($event)"
+        (deleteTodoEvent)="handleDelete($event)" (dragstart)="onDragStart($event, todo)" draggable="true">
+      </app-todo-item>
+    </ng-container>
+    <ng-template #noPendingTodos>
+      <p>No pending todos</p>
+    </ng-template>
+  </div>
+
+  <!-- Completed Lane -->
+  <div class="lane completed" (drop)="onDrop($event, true)" (dragover)="allowDrop($event)">
+    <h3>Completed</h3>
+    <ng-container *ngIf="completedTodos.length;else noCompletedTodos">
+      <app-todo-item *ngFor="let todo of completedTodos" [todo]="todo" (updateTodoEvent)="handleUpdate($event)"
+        (deleteTodoEvent)="handleDelete($event)" (dragstart)="onDragStart($event, todo)" draggable="true">
+      </app-todo-item>
+    </ng-container>
+    <ng-template #noCompletedTodos>
+      <p>No completed todos</p>
+    </ng-template>
+  </div>
+</div>
